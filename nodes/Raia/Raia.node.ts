@@ -28,12 +28,12 @@ export class Raia implements INodeType {
 			},
 		],
 		webhooks: [
-			{
-				name: 'default',
-				httpMethod: 'POST',
-				responseMode: 'onReceived',
-				path: 'raia-webhook',
-			},
+			// {
+			// 	name: 'default',
+			// 	httpMethod: 'POST',
+			// 	responseMode: 'onReceived',
+			// 	path: 'raia-webhook',
+			// },
 		],
 		properties: [
 			{
@@ -46,9 +46,9 @@ export class Raia implements INodeType {
 					{ name: 'Send Message', value: 'sendMessage' },
 					{ name: 'Start Email Conversation', value: 'startEmail' },
 					{ name: 'Start SMS Conversation', value: 'startSms' },
-					{ name: 'Start Voice Conversation', value: 'startVoice' },
-					{ name: 'Wait for Reply (Webhook)', value: 'waitForReply' },
-					
+					// { name: 'Start Voice Conversation', value: 'startVoice' },
+					// { name: 'Wait for Reply (Webhook)', value: 'waitForReply' },
+
 				],
 				default: 'startSms',
 			},

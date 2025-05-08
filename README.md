@@ -7,10 +7,8 @@
 ## 🚀 Features
 
 This node allows you to:
-- Start new conversations (SMS, Email, Voice)
+- Start new conversations (SMS, Email)
 - Chat or prompt an agent
-- Send messages in existing conversations
-- Wait for a reply via webhook
 - Use Raia’s platform in a single, unified node
 
 ## 🔧 Node Actions
@@ -19,11 +17,8 @@ This node allows you to:
 |---------------------------|--------------------------------------------------------------|
 | Start SMS Conversation    | Initiate a conversation via SMS                              |
 | Start Email Conversation  | Initiate a conversation via Email                            |
-| Start Voice Conversation  | Initiate a conversation via Voice                            |
 | Chat with Agent           | Create a new user and start a conversation with an agent     |
 | Prompt an Agent           | Send a prompt to an agent                                    |
-| Send Message              | Send a message in an existing conversation                   |
-| Wait for Reply (Webhook)  | Trigger a workflow when a reply is received via webhook      |
 
 ## 🧩 Node Parameters
 
@@ -37,10 +32,9 @@ This node allows you to:
 
 ### Channel-Specific Parameters
 
-#### SMS / Voice
+#### SMS
 - **Phone Number**
 - **SMS Introduction** (for SMS)
-- **Voice Introduction** (for Voice)
 
 #### Email
 - **Email Address**
@@ -50,14 +44,6 @@ This node allows you to:
 
 ### Prompt Agent
 - **Prompt**
-
-### Send Message
-- **Conversation ID**
-- **Message**
-
-## 🪝 Webhook
-
-When using the `Wait for Reply (Webhook)` action, the following payload is expected:
 
 ```json
 {
