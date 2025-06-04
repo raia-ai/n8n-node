@@ -1,6 +1,6 @@
 {
-  "name": "n8n-nodes-raia",
-  "version": "0.1.5",
+  "name": "@raia-ai/n8n-nodes-raia",
+  "version": "1.0.0",
   "keywords": [
     "n8n-community-node-package",
     "raia"
