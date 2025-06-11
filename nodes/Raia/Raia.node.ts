@@ -28,12 +28,6 @@ export class Raia implements INodeType {
 			},
 		],
 		webhooks: [
-			// {
-			// 	name: 'default',
-			// 	httpMethod: 'POST',
-			// 	responseMode: 'onReceived',
-			// 	path: 'raia-webhook',
-			// },
 		],
 		properties: [
 			{
@@ -48,12 +42,9 @@ export class Raia implements INodeType {
 					{ name: 'Start SMS Conversation', value: 'startSms' },
 					// { name: 'Start Voice Conversation', value: 'startVoice' },
 					// { name: 'Wait for Reply (Webhook)', value: 'waitForReply' },
-
 				],
 				default: 'startSms',
 			},
-
-			// Common fields
 			{
 				displayName: 'First Name',
 				name: 'firstName',
@@ -108,8 +99,6 @@ export class Raia implements INodeType {
 					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
 				},
 			},
-
-			// Specific fields
 			{
 				displayName: 'Phone Number',
 				name: 'phoneNumber',
@@ -186,8 +175,6 @@ export class Raia implements INodeType {
 
 	async webhook(this: IWebhookFunctions): Promise<IWebhookResponseData> {
 		const body = this.getBodyData();
-
-		// Safely destructure with default values or optional chaining
 		const conversationId = body?.conversationId ?? null;
 		const messageId = body?.messageId ?? null;
 		const userId = body?.userId ?? null;
@@ -218,7 +205,7 @@ export class Raia implements INodeType {
 			apiKey: string;
 			baseUrl: string;
 		};
-		const baseUrl = credentials.baseUrl.replace(/\/+$/, ''); // Trim trailing slashes
+		const baseUrl = credentials.baseUrl.replace(/\/+$/, '');
 
 		const headers = {
 			Accept: 'application/json',
@@ -296,9 +283,6 @@ export class Raia implements INodeType {
 					json: true,
 				});
 				returnItems.push({ json: response });
-			} else if (action === 'waitForReply') {
-				// Handled in webhook
-				return [];
 			} else if (action === 'sendMessage') {
 				const response = await this.helpers.httpRequest({
 					method: 'POST',
