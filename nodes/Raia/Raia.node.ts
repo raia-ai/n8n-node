@@ -37,7 +37,7 @@ export class Raia implements INodeType {
 				options: [
 					{ name: 'Chat with Agent', value: 'chatWithAgent' },
 					{ name: 'Prompt an Agent', value: 'promptAgent' },
-					{ name: 'Send Message', value: 'sendMessage' },
+					// { name: 'Send Message', value: 'sendMessage' },
 					{ name: 'Start Email Conversation', value: 'startEmail' },
 					{ name: 'Start SMS Conversation', value: 'startSms' },
 					// { name: 'Start Voice Conversation', value: 'startVoice' },
@@ -104,7 +104,7 @@ export class Raia implements INodeType {
 				name: 'phoneNumber',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { action: ['startSms', 'startVoice'] } },
+				displayOptions: { show: { action: ['startSms', 'startVoice', 'chatWithAgent'] } },
 			},
 			{
 				displayName: 'SMS Introduction',
@@ -126,7 +126,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				placeholder: 'name@email.com',
 				default: '',
-				displayOptions: { show: { action: ['startEmail'] } },
+				displayOptions: { show: { action: ['startEmail', 'chatWithAgent'] } },
 			},
 			{
 				displayName: 'Email Subject',
