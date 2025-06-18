@@ -37,11 +37,8 @@ export class Raia implements INodeType {
 				options: [
 					{ name: 'Chat with Agent', value: 'chatWithAgent' },
 					{ name: 'Prompt an Agent', value: 'promptAgent' },
-					// { name: 'Send Message', value: 'sendMessage' },
 					{ name: 'Start Email Conversation', value: 'startEmail' },
 					{ name: 'Start SMS Conversation', value: 'startSms' },
-					// { name: 'Start Voice Conversation', value: 'startVoice' },
-					// { name: 'Wait for Reply (Webhook)', value: 'waitForReply' },
 				],
 				default: 'startSms',
 			},
@@ -51,7 +48,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -60,7 +57,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -69,7 +66,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: 'Support',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -78,7 +75,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: 'crm',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -87,7 +84,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -96,7 +93,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'startVoice', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
 				},
 			},
 			{
@@ -104,7 +101,7 @@ export class Raia implements INodeType {
 				name: 'phoneNumber',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { action: ['startSms', 'startVoice', 'chatWithAgent'] } },
+				displayOptions: { show: { action: ['startSms', 'chatWithAgent'] } },
 			},
 			{
 				displayName: 'SMS Introduction',
@@ -112,13 +109,6 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: { show: { action: ['startSms'] } },
-			},
-			{
-				displayName: 'Voice Introduction',
-				name: 'voiceIntroduction',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { action: ['startVoice'] } },
 			},
 			{
 				displayName: 'Email',
@@ -216,7 +206,7 @@ export class Raia implements INodeType {
 		const returnItems: INodeExecutionData[] = [];
 
 		try {
-			if (action === 'startSms' || action === 'startEmail' || action === 'startVoice') {
+			if (action === 'startSms' || action === 'startEmail') {
 				const body: any = {
 					firstName: this.getNodeParameter('firstName', 0),
 					lastName: this.getNodeParameter('lastName', 0),
@@ -235,9 +225,6 @@ export class Raia implements INodeType {
 					body.emailSubject = this.getNodeParameter('emailSubject', 0);
 					body.emailIntroduction = this.getNodeParameter('emailIntroduction', 0);
 					body.includeSignatureInEmail = this.getNodeParameter('includeSignatureInEmail', 0);
-				} else if (action === 'startVoice') {
-					body.phoneNumber = this.getNodeParameter('phoneNumber', 0);
-					body.voiceIntroduction = this.getNodeParameter('voiceIntroduction', 0);
 				}
 
 				const response = await this.helpers.httpRequest({
