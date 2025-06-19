@@ -35,7 +35,7 @@ export class Raia implements INodeType {
 				name: 'action',
 				type: 'options',
 				options: [
-					{ name: 'Chat with Agent', value: 'chatWithAgent' },
+					// { name: 'Chat with Agent', value: 'chatWithAgent' },
 					{ name: 'Prompt an Agent', value: 'promptAgent' },
 					{ name: 'Start Email Conversation', value: 'startEmail' },
 					{ name: 'Start SMS Conversation', value: 'startSms' },
