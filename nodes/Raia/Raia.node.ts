@@ -12,7 +12,7 @@ export class Raia implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'raia',
 		name: 'raia',
-		group: ['trigger'],
+		group: ['action'],
 		version: 1,
 		icon: 'file:raia.svg',
 		description: 'Interact with Raia API',
@@ -35,7 +35,6 @@ export class Raia implements INodeType {
 				name: 'action',
 				type: 'options',
 				options: [
-					// { name: 'Chat with Agent', value: 'chatWithAgent' },
 					{ name: 'Prompt an Agent', value: 'promptAgent' },
 					{ name: 'Start Email Conversation', value: 'startEmail' },
 					{ name: 'Start SMS Conversation', value: 'startSms' },
@@ -48,7 +47,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -57,7 +56,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -66,7 +65,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: 'Support',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -75,7 +74,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: 'crm',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -84,7 +83,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -93,7 +92,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: {
-					show: { action: ['startSms', 'startEmail', 'chatWithAgent'] },
+					show: { action: ['startSms', 'startEmail'] },
 				},
 			},
 			{
@@ -101,7 +100,7 @@ export class Raia implements INodeType {
 				name: 'phoneNumber',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { action: ['startSms', 'chatWithAgent'] } },
+				displayOptions: { show: { action: ['startSms'] } },
 			},
 			{
 				displayName: 'SMS Introduction',
@@ -116,7 +115,7 @@ export class Raia implements INodeType {
 				type: 'string',
 				placeholder: 'name@email.com',
 				default: '',
-				displayOptions: { show: { action: ['startEmail', 'chatWithAgent'] } },
+				displayOptions: { show: { action: ['startEmail'] } },
 			},
 			{
 				displayName: 'Email Subject',
@@ -197,12 +196,6 @@ export class Raia implements INodeType {
 		};
 		const baseUrl = credentials.baseUrl.replace(/\/+$/, '');
 
-		const headers = {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-			'Agent-Secret-Key': credentials.apiKey,
-		};
-
 		const returnItems: INodeExecutionData[] = [];
 
 		try {
@@ -227,60 +220,44 @@ export class Raia implements INodeType {
 					body.includeSignatureInEmail = this.getNodeParameter('includeSignatureInEmail', 0);
 				}
 
-				const response = await this.helpers.httpRequest({
-					method: 'POST',
-					url: `${baseUrl}/conversations/start`,
-					headers,
-					body,
-					json: true,
-				});
+				const response = await this.helpers.httpRequestWithAuthentication.call(
+					this,
+					'raiaApi',
+					{
+						method: 'POST',
+						url: `${baseUrl}/conversations/start`,
+						body,
+						json: true,
+					}
+				);
 				returnItems.push({ json: response });
-			} else if (action === 'chatWithAgent') {
-				const userResponse = await this.helpers.httpRequest({
-					method: 'POST',
-					url: `${baseUrl}/users`,
-					headers,
-					body: {
-						firstName: this.getNodeParameter('firstName', 0),
-						lastName: this.getNodeParameter('lastName', 0),
-						context: this.getNodeParameter('context', 0),
-						source: this.getNodeParameter('source', 0),
-						fkId: this.getNodeParameter('fkId', 0),
-						fkUserId: this.getNodeParameter('fkUserId', 0),
-						phoneNumber: this.getNodeParameter('phoneNumber', 0) || undefined,
-						email: this.getNodeParameter('email', 0) || undefined,
-					},
-					json: true,
-				});
-				const conversationResponse = await this.helpers.httpRequest({
-					method: 'POST',
-					url: `${baseUrl}/conversations`,
-					headers,
-					body: { conversationUserId: userResponse.id, title: 'Chat with Agent' },
-					json: true,
-				});
-				returnItems.push({ json: conversationResponse });
 			} else if (action === 'promptAgent') {
 				const prompt = this.getNodeParameter('prompt', 0) as string;
-				const response = await this.helpers.httpRequest({
-					method: 'POST',
-					url: `${baseUrl}/prompts`,
-					headers,
-					body: { prompt },
-					json: true,
-				});
+				const response = await this.helpers.httpRequestWithAuthentication.call(
+					this,
+					'raiaApi',
+					{
+						method: 'POST',
+						url: `${baseUrl}/prompts`,
+						body: { prompt },
+						json: true,
+					}
+				);
 				returnItems.push({ json: response });
 			} else if (action === 'sendMessage') {
-				const response = await this.helpers.httpRequest({
-					method: 'POST',
-					url: `https://api.raia2.com/external/messages`,
-					headers,
-					body: {
-						conversationId: this.getNodeParameter('conversationId', 0),
-						message: this.getNodeParameter('message', 0),
-					},
-					json: true,
-				});
+				const response = await this.helpers.httpRequestWithAuthentication.call(
+					this,
+					'raiaApi',
+					{
+						method: 'POST',
+						url: `${baseUrl}/messages`,
+						body: {
+							conversationId: this.getNodeParameter('conversationId', 0),
+							message: this.getNodeParameter('message', 0),
+						},
+						json: true,
+					}
+				);
 				returnItems.push({ json: response });
 			} else {
 				throw new NodeApiError(this.getNode(), { message: 'Unknown Action' });

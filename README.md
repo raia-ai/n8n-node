@@ -9,7 +9,7 @@
 This node allows you to:
 - Start new conversations (SMS, Email)
 - Chat or prompt an agent
-- Use Raia’s platform in a single, unified node
+- Use Raia's platform in a single, unified node
 
 ## 🔧 Node Actions
 
@@ -54,6 +54,18 @@ This node allows you to:
   "timestamp": "ISODate"
 }
 ```
+
+## Installation
+
+Follow these steps to install this community node in your n8n instance:
+
+1. Open n8n.
+2. Go to **Settings** > **Community Nodes**.
+3. Click **Install Community Node**.
+4. Enter the name of this package: `n8n-nodes-raia`
+5. Click **Install**.
+
+For more details, see the [official n8n documentation](https://docs.n8n.io/integrations/community-nodes/installation/verified-install/).
 
 ## License
 
