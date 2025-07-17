@@ -17,7 +17,6 @@ This node allows you to:
 |---------------------------|--------------------------------------------------------------|
 | Start SMS Conversation    | Initiate a conversation via SMS                              |
 | Start Email Conversation  | Initiate a conversation via Email                            |
-| Chat with Agent           | Create a new user and start a conversation with an agent     |
 | Prompt an Agent           | Send a prompt to an agent                                    |
 
 ## 🧩 Node Parameters
